@@ -14,13 +14,13 @@ Multilingual Search System
 
 - sudo pip install -r requirements.txt
 	
-	- in case you face problem installing psycopg2 , try installing it with this command _pip3.5_ _install_ _psycopg2_
+	- in case you face problem installing psycopg2 , try installing it with this command instead _pip3.5_ _install_ _psycopg2_
 
 - install postgres database and create a new database
 
-- make a copy local_settings.py.sample file from nongit folder and move it to lingualsearch folder
+- make a copy of local_settings.py.sample file from nongit folder and move it to lingualsearch folder
 
-- rename this file copied file to **local_settings.py**
+- rename this file copied file to **local_settings.py** 
 
 - change all these database parameters: NAME,USER,PASSWORD,PORT,HOST as per your postgres
 
