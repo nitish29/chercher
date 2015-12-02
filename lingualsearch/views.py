@@ -1,10 +1,11 @@
 import urllib.request
 import urllib.parse
 import json
+from django.shortcuts import render
 from django.http import HttpResponse
 
 def search(request):
-	
+	search_context = ""
 	try:
 		
 		errors = []
@@ -33,4 +34,5 @@ def search(request):
 		response = HttpResponse(json.dumps({'status': 'failure','errors': errors}),
 		content_type='application/json')
 
-	return response
+	#return response
+	return render(request, "search.html", search_context)
