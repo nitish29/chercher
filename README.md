@@ -22,7 +22,7 @@ Multilingual Search System
 
 - rename this file copied file to **local_settings.py** 
 
-- change all these database parameters: NAME,USER,PASSWORD,PORT,HOST as per your postgres
+- change all these database parameters: NAME,USER,PASSWORD,PORT,HOST as per your postgres database setup
 
 - run the migrate command, to add/update database schema tables: python manage.py migrate 
 
