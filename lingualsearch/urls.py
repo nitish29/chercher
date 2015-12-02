@@ -18,5 +18,5 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^search$', 'lingualsearch.search', name='search'),
+    url(r'^search$', 'lingualsearch.views.search'),
 ]
