@@ -11,7 +11,7 @@ def search(request):
 	
 	try:
 		
-		#pdb.set_trace()
+		pdb.set_trace()
 		errors = []
 
 		search_context = request.GET['q']
@@ -25,12 +25,13 @@ def search(request):
 		#req = urllib.request.urlopen('http://uakk04319339.archit017.koding.io:8983/solr/project1/select?q=text_en%3Afootball&wt=json&indent=true')
 		content = req.read()
 		decoded_json_content = json.loads(content.decode())
-		print(decoded_json_content)
+		#print(decoded_json_content)
 		json_response = decoded_json_content["response"]
 		feed_data = json_response["docs"]
+		suggestions=getSuggestions()
 		
 
-		context = { "data" : feed_data }
+		context = { "data" : feed_data,"suggestions":suggestions }
 		
 
 	except:
@@ -44,3 +45,10 @@ def search(request):
 
 	
 	#return render(request, "search.html", search_context)
+def getSuggestions():
+	#pdb.set_trace()
+	request=urllib.request.urlopen('http://uakk04319339.archit017.koding.io:8983/solr/project1/suggest?q=ma&wt=json')
+	raw_json=request.read()
+	decoded_json_content = json.loads(raw_json.decode())
+	suggestions_list= decoded_json_content['spellcheck']['suggestions'][1]['suggestion']
+	return suggestions_list
