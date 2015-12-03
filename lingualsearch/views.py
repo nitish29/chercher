@@ -11,7 +11,7 @@ def search(request):
 	
 	try:
 		
-		pdb.set_trace()
+		#pdb.set_trace()
 		errors = []
 
 		search_context = request.GET['q']
@@ -28,7 +28,7 @@ def search(request):
 		print(decoded_json_content)
 		json_response = decoded_json_content["response"]
 		feed_data = json_response["docs"]
-		#print(feed_data)
+		
 
 		context = { "data" : feed_data }
 		
