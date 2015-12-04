@@ -1217,3 +1217,12 @@
     overflow: visible !important;
   }
 }
+.span_custom_tweet{
+  margin-left: 0px !important;
+}
+.h4_custom_margin{
+  margin:0px !important;
+}
+.span_image_padding{
+  padding-top: 4px !important;
+}

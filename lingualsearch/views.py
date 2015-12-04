@@ -10,7 +10,7 @@ import pdb
 def search(request):
 	
 	try:
-		pdb.set_trace()
+		#pdb.set_trace()
 		errors = []
 		search_context = request.GET['q']
 		type = "search"
