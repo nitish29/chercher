@@ -1,167 +1,171 @@
-{% extends 'base.html' %}
-{% block body_block %}
+{% extends 'base.html' %} {% block body_block %}
 <!-- Start of Page Container -->
-
 <div class="page-container">
-        <div class="container">
-                <div class="row">
-
-                        <!-- start of page content -->
-                        <div class="span8 main-listing">
-                                {% for i in data %}
-                                <article class="format-standard type-post hentry clearfix">
-
-                                        <header class="clearfix">
-                                                <div class="row">
-                                                        <div class="span1 span_image_padding">
-                                                           <img src="{{i.user_profile_image_url}}">   
-                                                   </div>
-
-                                                   <div class="span7 span_custom_tweet">
-                                                        <h4 class="h4_custom_margin"><a href="https://twitter.com/{{i.screen_name}}" target="_blank">{{i.username}}</a></h4>
-                                                        <p><a href="https://twitter.com/{{i.screen_name}}/status/{{i.id}}" target="_blank">{{i.text}}</a></p>                                                         
-                                                </div>
-                                                <!-- <img src="{{i.user_profile_image_url}}"> 
+    <div class="container">
+        <div class="row">
+            <!-- start of page content -->
+            <div class="span8 main-listing">
+                {% for i in data %}
+                <article class="format-standard type-post hentry clearfix">
+                    <header class="clearfix">
+                        <div class="row">
+                            <div class="span1 span_image_padding">
+                                <img src="{{i.user_profile_image_url}}">
+                            </div>
+                            <div class="span7 span_custom_tweet">
+                                <h4 class="h4_custom_margin"><a href="https://twitter.com/{{i.screen_name}}" target="_blank">{{i.username}}</a></h4>
+                                <p><a href="https://twitter.com/{{i.screen_name}}/status/{{i.id}}" target="_blank">{{i.text}}</a></p>
+                            </div>
+                            <!-- <img src="{{i.user_profile_image_url}}"> 
                                                 <h4>
                                                         <a href="https://twitter.com/{{i.screen_name}}">{{i.username}}</a>
                                                 </h4> -->
-                                                <div class="row">
-                                                        <div class="span1"></div>
-                                                        <div class="span7">
-                                                           <div class="post-meta clearfix">
-                                                                <span class="date">{{i.created_at}}</span>
-                                                                <span class="category"><a href="#" title="View all posts in Server &amp; Database">Server &amp; Database</a></span>
-                                                                <!-- <span class="comments"><a href="#" title="Comment on Integrating WordPress with Your Website">3 Comments</a></span> -->
-                                                                <span class="like-count">{{i.favorite_count}}</span>
-                                                                <span style="float:right;"><i class="icon-retweet" ></i>&nbsp;{{i.retweet_count}}</span>
-                                                        </div><!-- end of post meta -->  
-                                                </div>
-                                        </div>
-                                        <!-- <p>{{i.text}}</p> -->
-                                        
-
-                                </header>
-
-                                <!-- <p>Many of us work in an endless stream of tasks, browser tasks, social media, emails, meetings, rushing from one thing to another, never pausing and never ending.&nbsp;Then the day is over, and we are exhausted, and we often have very little to show for it. And we start the next . . . <a class="readmore-link" href="http://knowledgebase.inspirythemes.com/integrating-wordpress-with-your-website/">Read more</a></p> -->
-
-                        </article>
-                        {% endfor %}
-                        
-
-                        <div id="pagination">
-                                <a href="#" class="btn active">1</a>
-                                <a href="#" class="btn">2</a>
-                                <a href="#" class="btn">3</a>
-                                <a href="#" class="btn">Next »</a>
-                                <a href="#" class="btn">Last »</a>
-                        </div>
-
+                            <div class="row">
+                                <div class="span1"></div>
+                                <div class="span7">
+                                    <div class="post-meta clearfix">
+                                        <span class="date">{{i.created_at}}</span>
+                                        <span class="category"><a href="#" title="View all posts in Server &amp; Database">Server &amp; Database</a></span>
+                                        <!-- <span class="comments"><a href="#" title="Comment on Integrating WordPress with Your Website">3 Comments</a></span> -->
+                                        <span class="like-count">{{i.favorite_count}}</span>
+                                        <span style="float:right;"><i class="icon-retweet" ></i>&nbsp;{{i.retweet_count}}</span>
+                                    </div>
+                                    <!-- end of post meta -->
+                                </div>
+                            </div>
+                            <!-- <p>{{i.text}}</p> -->
+                    </header>
+                    <!-- <p>Many of us work in an endless stream of tasks, browser tasks, social media, emails, meetings, rushing from one thing to another, never pausing and never ending.&nbsp;Then the day is over, and we are exhausted, and we often have very little to show for it. And we start the next . . . <a class="readmore-link" href="http://knowledgebase.inspirythemes.com/integrating-wordpress-with-your-website/">Read more</a></p> -->
+                </article>
+                {% endfor %}
+                <div id="pagination">
+                    <a href="#" class="btn active">1</a>
+                    <a href="#" class="btn">2</a>
+                    <a href="#" class="btn">3</a>
+                    <a href="#" class="btn">Next »</a>
+                    <a href="#" class="btn">Last »</a>
+                </div>
                 </div>
                 <!-- end of page content -->
-
-
                 <!-- start of sidebar -->
                 <aside class="span4 page-sidebar">
-
-                        <section class="widget">
-                                <div class="support-widget">
-                                        <h3 class="title">Support</h3>
-                                        <p class="intro">Need more support? If you did not found an answer, contact us for further help.</p>
-                                </div>
-                        </section>
-
-
-                        <section class="widget">
-                                <h3 class="title">Featured Articles</h3>
-                                <ul class="articles">
-                                        <li class="article-entry standard">
-                                                <h4><a href="single.html">Integrating WordPress with Your Website</a></h4>
-                                                <span class="article-meta">25 Feb, 2013 in <a href="#" title="View all posts in Server &amp; Database">Server &amp; Database</a></span>
-                                                <span class="like-count">66</span>
-                                        </li>
-                                        <li class="article-entry standard">
-                                                <h4><a href="single.html">WordPress Site Maintenance</a></h4>
-                                                <span class="article-meta">24 Feb, 2013 in <a href="#" title="View all posts in Website Dev">Website Dev</a></span>
-                                                <span class="like-count">15</span>
-                                        </li>
-                                        <li class="article-entry video">
-                                                <h4><a href="single.html">Meta Tags in WordPress</a></h4>
-                                                <span class="article-meta">23 Feb, 2013 in <a href="#" title="View all posts in Website Dev">Website Dev</a></span>
-                                                <span class="like-count">8</span>
-                                        </li>
-                                        <li class="article-entry image">
-                                                <h4><a href="single.html">WordPress in Your Language</a></h4>
-                                                <span class="article-meta">22 Feb, 2013 in <a href="#" title="View all posts in Advanced Techniques">Advanced Techniques</a></span>
-                                                <span class="like-count">6</span>
-                                        </li>
-                                </ul>
-                        </section>
-
-
-
-                        <section class="widget"><h3 class="title">Categories</h3>
-                                <ul>
-                                        <li><a href="#" title="Lorem ipsum dolor sit amet,">Advanced Techniques</a> </li>
-                                        <li><a href="#" title="Lorem ipsum dolor sit amet,">Designing in WordPress</a></li>
-                                        <li><a href="#" title="Lorem ipsum dolor sit amet,">Server &amp; Database</a></li>
-                                        <li><a href="#" title="Lorem ipsum dolor sit amet, ">Theme Development</a></li>
-                                        <li><a href="#" title="Lorem ipsum dolor sit amet,">Website Dev</a></li>
-                                        <li><a href="#" title="Lorem ipsum dolor sit amet,">WordPress for Beginners</a></li>
-                                        <li><a href="#" title="Lorem ipsum dolor sit amet, ">WordPress Plugins</a></li>
-                                </ul>
-                        </section>
-
-                        <section class="widget">
-                                <h3 class="title">Recent Comments</h3>
-                                <ul id="recentcomments">
-                                        <li class="recentcomments"><a href="#" rel="external nofollow" class="url">John Doe</a> on <a href="#">Integrating WordPress with Your Website</a></li>
-                                        <li class="recentcomments">saqib sarwar on <a href="#">Integrating WordPress with Your Website</a></li>
-                                        <li class="recentcomments"><a href="#" rel="external nofollow" class="url">John Doe</a> on <a href="#">Integrating WordPress with Your Website</a></li>
-                                        <li class="recentcomments"><a href="#" rel="external nofollow" class="url">Mr WordPress</a> on <a href="#">Installing WordPress</a></li>
-                                </ul>
-                        </section>
-
+                    <section class="widget">
+                            <h3 class="title pie_chart_margin">Languages</h3>
+                            <div id="piechart" style="width: 500px; height: 300px;"></div>
+                       
+                    </section>
+                    <section class="widget">
+                        <h3 class="title">Featured Articles</h3>
+                        <ul class="articles">
+                            <li class="article-entry standard">
+                                <h4><a href="single.html">Integrating WordPress with Your Website</a></h4>
+                                <span class="article-meta">25 Feb, 2013 in <a href="#" title="View all posts in Server &amp; Database">Server &amp; Database</a></span>
+                                <span class="like-count">66</span>
+                            </li>
+                            <li class="article-entry standard">
+                                <h4><a href="single.html">WordPress Site Maintenance</a></h4>
+                                <span class="article-meta">24 Feb, 2013 in <a href="#" title="View all posts in Website Dev">Website Dev</a></span>
+                                <span class="like-count">15</span>
+                            </li>
+                            <li class="article-entry video">
+                                <h4><a href="single.html">Meta Tags in WordPress</a></h4>
+                                <span class="article-meta">23 Feb, 2013 in <a href="#" title="View all posts in Website Dev">Website Dev</a></span>
+                                <span class="like-count">8</span>
+                            </li>
+                            <li class="article-entry image">
+                                <h4><a href="single.html">WordPress in Your Language</a></h4>
+                                <span class="article-meta">22 Feb, 2013 in <a href="#" title="View all posts in Advanced Techniques">Advanced Techniques</a></span>
+                                <span class="like-count">6</span>
+                            </li>
+                        </ul>
+                    </section>
+                    <section class="widget">
+                        <h3 class="title">Categories</h3>
+                        <ul>
+                            <li><a href="#" title="Lorem ipsum dolor sit amet,">Advanced Techniques</a> </li>
+                            <li><a href="#" title="Lorem ipsum dolor sit amet,">Designing in WordPress</a></li>
+                            <li><a href="#" title="Lorem ipsum dolor sit amet,">Server &amp; Database</a></li>
+                            <li><a href="#" title="Lorem ipsum dolor sit amet, ">Theme Development</a></li>
+                            <li><a href="#" title="Lorem ipsum dolor sit amet,">Website Dev</a></li>
+                            <li><a href="#" title="Lorem ipsum dolor sit amet,">WordPress for Beginners</a></li>
+                            <li><a href="#" title="Lorem ipsum dolor sit amet, ">WordPress Plugins</a></li>
+                        </ul>
+                    </section>
+                    <section class="widget">
+                        <h3 class="title">Recent Comments</h3>
+                        <ul id="recentcomments">
+                            <li class="recentcomments"><a href="#" rel="external nofollow" class="url">John Doe</a> on <a href="#">Integrating WordPress with Your Website</a></li>
+                            <li class="recentcomments">saqib sarwar on <a href="#">Integrating WordPress with Your Website</a></li>
+                            <li class="recentcomments"><a href="#" rel="external nofollow" class="url">John Doe</a> on <a href="#">Integrating WordPress with Your Website</a></li>
+                            <li class="recentcomments"><a href="#" rel="external nofollow" class="url">Mr WordPress</a> on <a href="#">Installing WordPress</a></li>
+                        </ul>
+                    </section>
                 </aside>
                 <!-- end of sidebar -->
+            </div>
         </div>
-</div>
-</div>
-<script type="text/javascript">
- function reverseString(str) {
-    var temp = '';
-    var i = str.length;
+    </div>
+    <script type="text/javascript">
+    function reverseString(str) {
+        var temp = '';
+        var i = str.length;
 
-    while (i > 0) {
-        temp += str.substring(i - 1, i);
-        i--;
-}
+        while (i > 0) {
+            temp += str.substring(i - 1, i);
+            i--;
+        }
 
 
-return temp;
-}
-function displaySuggestion(str) {
-  //console.log(str);
-  var old_val=document.getElementById('s').value;
-  var temp="\0" + old_val;
-  //alert(temp);
-  var flag=0;
-  var new_str="";
-  for(var i=temp.length;temp.charAt(i)!='\0';i--){
-        //console.log(temp.charAt(i));
-        if(flag == 0){
-                if(temp.charAt(i)==' '){
-                        flag=1;
+        return temp;
+    }
+
+    function displaySuggestion(str) {
+        //console.log(str);
+        var old_val = document.getElementById('s').value;
+        var temp = "\0" + old_val;
+        //alert(temp);
+        var flag = 0;
+        var new_str = "";
+        for (var i = temp.length; temp.charAt(i) != '\0'; i--) {
+            //console.log(temp.charAt(i));
+            if (flag == 0) {
+                if (temp.charAt(i) == ' ') {
+                    flag = 1;
                 }
+            } else {
+                new_str = new_str + temp.charAt(i);
+            }
         }
-        else{
-                new_str=new_str+temp.charAt(i);
-        }
-}
-new_str = new_str.substring(0, new_str.length);
-/*alert(new_str);*/
-document.getElementById('s').value=reverseString(new_str)+" "+str+" ";
-document.getElementById('s').focus();
-//$('#jquery-live-search').hide().slideUp();
-}
-</script>               <!-- End of Page Container -->
-{% endblock %}
+        new_str = new_str.substring(0, new_str.length);
+        /*alert(new_str);*/
+        document.getElementById('s').value = reverseString(new_str) + " " + str + " ";
+        document.getElementById('s').focus();
+        //$('#jquery-live-search').hide().slideUp();
+    }
+
+    </script>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+      google.load("visualization", "1", {packages:["corechart"]});
+      google.setOnLoadCallback(drawChart);
+      function drawChart() {
+
+        var data = google.visualization.arrayToDataTable([
+          ['Language', 'Percentage'],
+          ['English',     11],
+          ['German',      2],
+          ['French',  2],
+          ['Spanish', 2]
+        ]);
+
+        var options = {
+          title: '',
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+        chart.draw(data, options);
+      }
+    </script>
+    <!-- End of Page Container -->
+    {% endblock %}
