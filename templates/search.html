@@ -50,9 +50,8 @@
                 <!-- start of sidebar -->
                 <aside class="span4 page-sidebar">
                     <section class="widget">
-                            <h3 class="title pie_chart_margin">Languages</h3>
-                            <div id="piechart" style="width: 500px; height: 300px;"></div>
-                       
+                        <h3 class="title pie_chart_margin">Languages</h3>
+                        <div id="piechart" style="width: 500px; height: 300px;"></div>
                     </section>
                     <section class="widget">
                         <h3 class="title">Featured Articles</h3>
@@ -142,30 +141,44 @@
         document.getElementById('s').focus();
         //$('#jquery-live-search').hide().slideUp();
     }
-
     </script>
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <script type="text/javascript">
-      google.load("visualization", "1", {packages:["corechart"]});
-      google.setOnLoadCallback(drawChart);
-      function drawChart() {
+    google.load("visualization", "1", {
+        packages: ["corechart"]
+    });
+    google.setOnLoadCallback(drawChart);
+
+    function drawChart() {
 
         var data = google.visualization.arrayToDataTable([
-          ['Language', 'Percentage'],
-          ['English',     11],
-          ['German',      2],
-          ['French',  2],
-          ['Spanish', 2]
+            ['Language', 'Percentage'],
+            ['English', 11],
+            ['German', 2],
+            ['French', 2],
+            ['Spanish', 2]
         ]);
 
         var options = {
-          title: '',
+            title: '',
         };
 
         var chart = new google.visualization.PieChart(document.getElementById('piechart'));
 
         chart.draw(data, options);
-      }
+    }
+    document.getElementById('piechart').onclick = function(rowIndex) {
+        console.log(rowIndex);
+        console.log("helloo");
+        this.highlightRow(this.selectedRow, false); // Clear previous selection
+        this.highlightRow(rowIndex, true); // Highlight new selection
+
+        // Save the selected row index in case getSelection is called.
+        this.selectedRow = rowIndex;
+
+        // Fire a select event.
+        google.visualization.events.trigger(this, 'select', {});
+    };
     </script>
     <!-- End of Page Container -->
     {% endblock %}
