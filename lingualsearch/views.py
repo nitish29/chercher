@@ -49,7 +49,7 @@ def getSuggestions(request):
 	return HttpResponse(output)
 
 def getAuto():
-	pdb.set_trace()
+	#pdb.set_trace()
 	return render("suggestions.html")
 
 def makeSolrCall(search_query,type):
