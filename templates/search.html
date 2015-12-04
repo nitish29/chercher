@@ -8,7 +8,7 @@
 
                         <!-- start of page content -->
                         <div class="span8 main-listing">
-                        {% for i in data %}
+                                {% for i in data %}
                                 <article class="format-standard type-post hentry clearfix">
 
                                         <header class="clearfix">
@@ -110,26 +110,42 @@
                 </div>
         </div>
 </div>
- <script type="text/javascript">
- function displaySuggestion(str) {
+<script type="text/javascript">
+       function reverseString(str) {
+            var temp = '';
+            var i = str.length;
+
+            while (i > 0) {
+                temp += str.substring(i - 1, i);
+                i--;
+        }
+
+
+        return temp;
+}
+function displaySuggestion(str) {
   //console.log(str);
   var old_val=document.getElementById('s').value;
-  var temp="$" + old_val;
+  var temp="\0" + old_val;
+  //alert(temp);
   var flag=0;
   var new_str="";
-  for(var i=temp.length-1;temp.charAt(i)!='$';i--){
-        console.log(temp.charAt(i));
+  for(var i=temp.length;temp.charAt(i)!='\0';i--){
+        //console.log(temp.charAt(i));
         if(flag == 0){
                 if(temp.charAt(i)==' '){
-                flag=1;
-        }
-                i--;
+                        flag=1;
+                }
         }
         else{
                 new_str=new_str+temp.charAt(i);
         }
 }
-  document.getElementById('s').value=new_str+str;
+new_str = new_str.substring(0, new_str.length);
+/*alert(new_str);*/
+document.getElementById('s').value=reverseString(new_str)+" "+str+" ";
+document.getElementById('s').focus();
+//$('#jquery-live-search').hide().slideUp();
 }
- </script>               <!-- End of Page Container -->
+</script>               <!-- End of Page Container -->
 {% endblock %}

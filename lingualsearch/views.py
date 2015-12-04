@@ -33,7 +33,7 @@ def search(request):
 	
 	#return render(request, "search.html", search_context)
 def getSuggestions(request):
-	pdb.set_trace()
+	#pdb.set_trace()
 	search_context = request.GET['s']
 	type = "suggestion"
 	decoded_json_content = makeSolrCall(search_context,type)
@@ -45,7 +45,7 @@ def getSuggestions(request):
 	return HttpResponse(output)
 
 def getAuto():
-	pdb.set_trace()
+	#pdb.set_trace()
 	return render("suggestions.html")
 
 def makeSolrCall(search_query,type):
