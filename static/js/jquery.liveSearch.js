@@ -22,8 +22,9 @@ http://creativecommons.org/licenses/by/3.0/
 
 ***/
 jQuery.fn.liveSearch = function (conf) {
+	//console.log(conf);
 	var config = jQuery.extend({
-		url:			'/search-results.php?q=', 
+		url:			'/auto', 
 		id:				'jquery-live-search', 
 		duration:		400, 
 		typeDelay:		200,
@@ -132,6 +133,9 @@ jQuery.fn.liveSearch = function (conf) {
 					// Start a new ajax-request in X ms
 					this.timer = setTimeout(function () {
 						jQuery.get(config.url + q, function (data) {
+							//console.log(config.url);
+							//console.log(data);
+							//console.log(q);
 							input.removeClass(config.loadingClass);
 
 							// Show live-search if results and search-term aren't empty

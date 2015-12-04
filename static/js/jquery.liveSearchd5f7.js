@@ -23,7 +23,7 @@ http://creativecommons.org/licenses/by/3.0/
 ***/
 jQuery.fn.liveSearch = function (conf) {
 	var config = jQuery.extend({
-		url:			'/search-results.php?q=', 
+		url:			'/auto', 
 		id:				'jquery-live-search', 
 		duration:		400, 
 		typeDelay:		200,

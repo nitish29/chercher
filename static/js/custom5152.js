@@ -351,7 +351,7 @@ jQuery(document).ready(function(e) {
                 /*	Live Search
                 /*-----------------------------------------------------------------------------------*/
                 if(jQuery().liveSearch){
-                        jQuery('#s').liveSearch({url: 'search.php?livesearch=used&s='});
+                        jQuery('#s').liveSearch({url: 'suggestions?livesearch=used&s='});
                 }
 				
 });

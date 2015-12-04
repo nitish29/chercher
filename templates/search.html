@@ -110,5 +110,26 @@
                 </div>
         </div>
 </div>
-                <!-- End of Page Container -->
+ <script type="text/javascript">
+ function displaySuggestion(str) {
+  //console.log(str);
+  var old_val=document.getElementById('s').value;
+  var temp="$" + old_val;
+  var flag=0;
+  var new_str="";
+  for(var i=temp.length-1;temp.charAt(i)!='$';i--){
+        console.log(temp.charAt(i));
+        if(flag == 0){
+                if(temp.charAt(i)==' '){
+                flag=1;
+        }
+                i--;
+        }
+        else{
+                new_str=new_str+temp.charAt(i);
+        }
+}
+  document.getElementById('s').value=new_str+str;
+}
+ </script>               <!-- End of Page Container -->
 {% endblock %}
