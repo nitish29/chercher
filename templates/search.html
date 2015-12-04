@@ -18,8 +18,8 @@
                                                    </div>
 
                                                    <div class="span7 span_custom_tweet">
-                                                        <h4 class="h4_custom_margin"><a href="https://twitter.com/{{i.screen_name}}">{{i.username}}</a></h4>
-                                                        <p>{{i.text}}</p>                                                         
+                                                        <h4 class="h4_custom_margin"><a href="https://twitter.com/{{i.screen_name}}" target="_blank">{{i.username}}</a></h4>
+                                                        <p><a href="https://twitter.com/{{i.screen_name}}/status/{{i.id}}" target="_blank">{{i.text}}</a></p>                                                         
                                                 </div>
                                                 <!-- <img src="{{i.user_profile_image_url}}"> 
                                                 <h4>
@@ -32,7 +32,8 @@
                                                                 <span class="date">{{i.created_at}}</span>
                                                                 <span class="category"><a href="#" title="View all posts in Server &amp; Database">Server &amp; Database</a></span>
                                                                 <!-- <span class="comments"><a href="#" title="Comment on Integrating WordPress with Your Website">3 Comments</a></span> -->
-                                                                <span class="like-count">66</span>
+                                                                <span class="like-count">{{i.favorite_count}}</span>
+                                                                <span style="float:right;"><i class="icon-retweet" ></i>&nbsp;{{i.retweet_count}}</span>
                                                         </div><!-- end of post meta -->  
                                                 </div>
                                         </div>
