@@ -13,8 +13,9 @@ def search(request):
 		#pdb.set_trace()
 		errors = []
 		search_context = request.GET['q']
+		page_no = request.GET['page_no']
 		type = "search"
-		decoded_json_content = makeSolrCall(search_context,type)
+		decoded_json_content = makeSolrCall(search_context,type, page_no,2)
 		json_response = decoded_json_content["response"]
 		feed_data = json_response["docs"]
 		context = { "data" : feed_data }
@@ -52,15 +53,15 @@ def getAuto():
 	#pdb.set_trace()
 	return render("suggestions.html")
 
-def makeSolrCall(search_query,type):
-	
+def makeSolrCall(search_query,type, page_no=1, num_results=20):
+	#pdb.set_trace()
 	search_context = search_query.strip()
 	formatted_string = search_context.replace(",", " ")
 	formatted_string = ' '.join(formatted_string.split())
-
+	start=(int(page_no)-1)*int(num_results)
 	if type == "search":
 		formatted_string = 'text_en:' + formatted_string
-		request_params = urllib.parse.urlencode({'q': formatted_string, 'wt': 'json', 'indent': 'true'})
+		request_params = urllib.parse.urlencode({'q': formatted_string, 'wt': 'json', 'indent': 'true','rows':num_results,'start':start})
 		request_params = request_params.encode('utf-8')
 		req = urllib.request.urlopen('http://uakk04319339.archit017.koding.io:8983/solr/project1/select', request_params)
 
