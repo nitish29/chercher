@@ -14,15 +14,15 @@ def search(request):
 		errors = []
 		search_context = request.GET['q']
 		type = "search"
-		#decoded_json_content = makeSolrCall(search_context,type)
-		#json_response = decoded_json_content["response"]
-		#feed_data = json_response["docs"]
-		# context = { "data" : feed_data }
+		decoded_json_content = makeSolrCall(search_context,type)
+		json_response = decoded_json_content["response"]
+		feed_data = json_response["docs"]
+		context = { "data" : feed_data }
 		
-		decoded_json_content = returnSampleJsonData()
-		cleaned_json = json.loads(decoded_json_content)
+		# decoded_json_content = returnSampleJsonData()
+		# cleaned_json = json.loads(decoded_json_content)
 		
-		context = { "data" : cleaned_json }
+		# context = { "data" : cleaned_json }
 		
 
 	except:
