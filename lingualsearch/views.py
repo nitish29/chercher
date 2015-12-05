@@ -13,7 +13,7 @@ import math
 
 def search(request):
     try:
-        # pdb.set_trace()
+        #pdb.set_trace()
         errors = []
         search_context = request.GET['q']
         page_no = request.GET['page_no']
@@ -46,7 +46,7 @@ def search(request):
 
 
 def getSuggestions(request):
-    # pdb.set_trace()
+    #pdb.set_trace()
     search_context = request.GET['s']
     type = "suggestion"
     decoded_json_content = makeSolrCall(search_context, type)
@@ -64,6 +64,7 @@ def getAuto():
 
 
 def makeSolrCall(search_query, type, page_no=1, results_per_page=20):
+    #pdb.set_trace()
     search_context = search_query.strip()
     formatted_string = search_context.replace(",", " ")
     formatted_string = ' '.join(formatted_string.split())
@@ -87,7 +88,27 @@ def makeSolrCall(search_query, type, page_no=1, results_per_page=20):
 
     content = req.read()
     decoded_json_content = json.loads(content.decode())
+    if type == "search":
+        decoded_json_content = perform_relevance_feedback(decoded_json_content, start, results_per_page, search_query)
     return decoded_json_content
+
+def perform_relevance_feedback(initial_response_data, start, results_per_page, search_query):
+	#pdb.set_trace()
+	tags = initial_response_data['response']['docs'][0]['tweet_tags']
+	if len(tags) == 0:
+		return initial_response_data
+
+	query = ' '.join(tags)
+	search_context = search_query.strip()
+	formatted_string = search_context.replace(",", " ")
+	formatted_string = ' '.join(formatted_string.split())
+	formatted_string = formatted_string + ' ' + query
+	request_params = urllib.parse.urlencode({'q': formatted_string, 'wt': 'json', 'indent': 'true', 'defType': 'dismax','qf': processLang(search_context), 'bq': boost_query(search_context), 'bf': defaultBoosts(),'rows': results_per_page, 'start': start})
+	request_params = request_params.encode('utf-8')
+	req = urllib.request.urlopen('http://urkk9fcf8fe7.richieverma.koding.io:8983/solr/partB/select',request_params)
+	content = req.read()
+	decoded_json_content = json.loads(content.decode())
+	return decoded_json_content
 
 
 def processLang(query):
@@ -108,13 +129,21 @@ def boost_query_with_known_lang(lang):
 
 
 def boost_query(query):
+    pdb.set_trace()
+    lang = detect(re.sub('#[^\s]*', '', query))
+    capitalWords = []
     matches = re.findall('#[^\s]*', query, re.DOTALL)
     boost_query = "user_verified:true^1.5"
     if len(matches) > 0:
-        boost_query = boost_query + "tweet_hashtags:("
+        boost_query = boost_query + " tweet_hashtags:("
         for hashtag in matches:
             boost_query = boost_query + hashtag.replace("#", '') + " "
         boost_query = boost_query + ")^1.5"
+    for word in query.split(" "):
+        if word.istitle():
+            capitalWords.append(word)
+    if len(capitalWords) > 0:
+        boost_query = boost_query + " text_" + lang + "_CAPS:(" + (" ").join(capitalWords) + ")^2"
     return boost_query
 
 
