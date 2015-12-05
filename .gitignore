@@ -96,6 +96,7 @@ docs/_build/
 # PyBuilder
 target/
 
+.idea/*
 # Django stuff:
 *.log
 lingualsearch/local_settings.py

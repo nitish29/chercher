@@ -76,15 +76,14 @@ def makeSolrCall(search_query, type, page_no=1, results_per_page=20):
              'qf': processLang(search_context), 'bq': boost_query(search_context), 'bf': defaultBoosts(),
              'rows': results_per_page, 'start': start})
         request_params = request_params.encode('utf-8')
-        req = urllib.request.urlopen('http://uakk04319339.archit017.koding.io:8983/solr/project1/select',
+        req = urllib.request.urlopen('http://urkk9fcf8fe7.richieverma.koding.io:8983/solr/partB/select',
                                      request_params)
 
     else:
         request_params = urllib.parse.urlencode(
             {'q': formatted_string, 'wt': 'json', 'indent': 'true'})
         request_params = request_params.encode('utf-8')
-        req = urllib.request.urlopen('http://uakk04319339.archit017.koding.io:8983/solr/project1/suggest',
-                                     request_params)
+        req = urllib.request.urlopen('http://urkk9fcf8fe7.richieverma.koding.io:8983/solr/partB/suggest', request_params)
 
     content = req.read()
     decoded_json_content = json.loads(content.decode())
