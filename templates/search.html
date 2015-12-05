@@ -2,6 +2,9 @@
 <!-- Start of Page Container -->
 <div class="page-container">
     <div class="container">
+    <div class="row">
+    {{total_results}} results found
+    </div>
         <div class="row">
             <!-- start of page content -->
             <div class="span8 main-listing">
@@ -39,12 +42,18 @@
                 </article>
                 {% endfor %}
                 <div id="pagination">
-                    <a href="#" class="btn active">1</a>
-                    <a href="#" class="btn">2</a>
-                    <a href="#" class="btn">3</a>
-                    <a href="#" class="btn">Next »</a>
-                    <a href="#" class="btn">Last »</a>
+                
+                {% for j in loop_times %}
+                
+                    <a href="?q={{query}}&page_no={{j}}" class="btn {% ifequal j|slugify page_no %}active{% endifequal %}">{{j}}</a>
+
+                {% endfor %}
+                {% ifnotequal num_pages|slugify page_no|slugify %}
+                <a href="?q={{query}}&page_no={{next_page}}" class="btn">Next »</a>
+                <a href="?q={{query}}&page_no={{num_pages}}" class="btn">Last »</a>
+                {% endifnotequal %}
                 </div>
+                
                 </div>
                 <!-- end of page content -->
                 <!-- start of sidebar -->

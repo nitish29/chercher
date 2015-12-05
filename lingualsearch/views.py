@@ -6,6 +6,7 @@ from django.http import HttpResponse
 import os
 from django.conf import settings
 import pdb
+import math
 
 def search(request):
 	
@@ -14,11 +15,16 @@ def search(request):
 		errors = []
 		search_context = request.GET['q']
 		page_no = request.GET['page_no']
+		next_page=int(page_no)+1
 		type = "search"
-		decoded_json_content = makeSolrCall(search_context,type, page_no,2)
+		results_per_page=20
+		decoded_json_content = makeSolrCall(search_context,type, page_no,results_per_page)
 		json_response = decoded_json_content["response"]
+		total_results=json_response["numFound"]
+		num_pages=int(math.ceil(int(total_results)/int(results_per_page)))
 		feed_data = json_response["docs"]
-		context = { "data" : feed_data }
+		loop_times=range(1,num_pages+1)
+		context = { "data" : feed_data,"num_pages":num_pages,"loop_times":loop_times, "page_no":page_no, "query":search_context, "next_page":next_page, "total_results":total_results  }
 		
 		# decoded_json_content = returnSampleJsonData()
 		# cleaned_json = json.loads(decoded_json_content)
@@ -53,15 +59,15 @@ def getAuto():
 	#pdb.set_trace()
 	return render("suggestions.html")
 
-def makeSolrCall(search_query,type, page_no=1, num_results=20):
+def makeSolrCall(search_query,type, page_no=1, results_per_page=20):
 	#pdb.set_trace()
 	search_context = search_query.strip()
 	formatted_string = search_context.replace(",", " ")
 	formatted_string = ' '.join(formatted_string.split())
-	start=(int(page_no)-1)*int(num_results)
+	start=(int(page_no)-1)*int(results_per_page)
 	if type == "search":
 		formatted_string = 'text_en:' + formatted_string
-		request_params = urllib.parse.urlencode({'q': formatted_string, 'wt': 'json', 'indent': 'true','rows':num_results,'start':start})
+		request_params = urllib.parse.urlencode({'q': formatted_string, 'wt': 'json', 'indent': 'true','rows':results_per_page,'start':start})
 		request_params = request_params.encode('utf-8')
 		req = urllib.request.urlopen('http://uakk04319339.archit017.koding.io:8983/solr/project1/select', request_params)
 
