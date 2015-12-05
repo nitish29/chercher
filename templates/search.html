@@ -43,7 +43,7 @@
                 {% endfor %}
                 <div id="pagination">
                 
-                {% for j in loop_times %}
+                {% for j in loop_times|slice:":10" %}
                 
                     <a href="?q={{query}}&page_no={{j}}" class="btn {% ifequal j|slugify page_no %}active{% endifequal %}">{{j}}</a>
 
