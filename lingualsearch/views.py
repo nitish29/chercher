@@ -19,7 +19,7 @@ def search(request):
         page_no = request.GET['page_no']
         next_page = int(page_no) + 1
         type = "search"
-        results_per_page = 20
+        results_per_page = 10
         decoded_json_content = makeSolrCall(search_context, type, page_no, results_per_page)
         json_response = decoded_json_content["response"]
         total_results = json_response["numFound"]
@@ -129,7 +129,7 @@ def boost_query_with_known_lang(lang):
 
 
 def boost_query(query):
-    pdb.set_trace()
+    #pdb.set_trace()
     lang = detect(re.sub('#[^\s]*', '', query))
     capitalWords = []
     matches = re.findall('#[^\s]*', query, re.DOTALL)
