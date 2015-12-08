@@ -77,14 +77,14 @@ def makeSolrCall(search_query, type, page_no=1, results_per_page=20):
              'qf': processLang(search_context), 'bq': boost_query(search_context), 'bf': defaultBoosts(),
              'rows': results_per_page, 'start': start})
         request_params = request_params.encode('utf-8')
-        req = urllib.request.urlopen('http://52.27.72.1:8983/solr/ezra/select',
+        req = urllib.request.urlopen('http://52.34.17.82:8983/solr/ezra/select',
                                      request_params)
 
     else:
         request_params = urllib.parse.urlencode(
             {'q': formatted_string, 'wt': 'json', 'indent': 'true'})
         request_params = request_params.encode('utf-8')
-        req = urllib.request.urlopen('http://52.27.72.1:8983/solr/ezra/suggest', request_params)
+        req = urllib.request.urlopen('http://52.34.17.82:8983/solr/ezra/suggest', request_params)
 
     content = req.read()
     decoded_json_content = json.loads(content.decode())
@@ -105,7 +105,7 @@ def perform_relevance_feedback(initial_response_data, start, results_per_page, s
 	formatted_string = formatted_string + ' ' + query
 	request_params = urllib.parse.urlencode({'q': formatted_string, 'wt': 'json', 'indent': 'true', 'defType': 'dismax','qf': processLang(search_context), 'bq': boost_query(search_context), 'bf': defaultBoosts(),'rows': results_per_page, 'start': start})
 	request_params = request_params.encode('utf-8')
-	req = urllib.request.urlopen('http://52.27.72.1:8983/solr/ezra/select',request_params)
+	req = urllib.request.urlopen('http://52.34.17.82:8983/solr/ezra/select',request_params)
 	content = req.read()
 	decoded_json_content = json.loads(content.decode())
 	return decoded_json_content
@@ -129,7 +129,7 @@ def boost_query_with_known_lang(lang):
 
 
 def boost_query(query):
-    #pdb.set_trace()
+    pdb.set_trace()
     lang = detect(re.sub('#[^\s]*', '', query))
     capitalWords = []
     matches = re.findall('#[^\s]*', query, re.DOTALL)
@@ -142,7 +142,7 @@ def boost_query(query):
     for word in query.split(" "):
         if word.istitle():
             capitalWords.append(word)
-    if len(capitalWords) > 0:
+    if len(capitalWords) > 0 and lang in ['en','fr','de','es']:
         boost_query = boost_query + " text_" + lang + "_CAPS:(" + (" ").join(capitalWords) + ")^2"
     return boost_query
 
