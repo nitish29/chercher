@@ -11,6 +11,7 @@ import re
 import math
 import logging
 import simplejson
+import itertools
 from stemming.porter2 import stem
 logging.basicConfig(format=' %(message)s', level=logging.INFO)
 from gensim import corpora, models, similarities
@@ -24,15 +25,26 @@ def search(request):
         next_page = int(page_no) + 1
         type = "search"
         results_per_page = 10
-        decoded_json_content = makeSolrCall(search_context, type, page_no, results_per_page)
+        facet_field="lang"
+        decoded_json_content = makeSolrCall(search_context, type, page_no, results_per_page, "true", facet_field)
+        print(decoded_json_content)
+        cnt={"en":0,"de":0,"fr":0,"es":0}
+        cnt[decoded_json_content["facet_counts"]["facet_fields"][facet_field][0]]=decoded_json_content["facet_counts"]["facet_fields"][facet_field][1]
+        cnt[decoded_json_content["facet_counts"]["facet_fields"][facet_field][2]]=decoded_json_content["facet_counts"]["facet_fields"][facet_field][3]
+        cnt[decoded_json_content["facet_counts"]["facet_fields"][facet_field][4]]=decoded_json_content["facet_counts"]["facet_fields"][facet_field][5]
+        cnt[decoded_json_content["facet_counts"]["facet_fields"][facet_field][6]]=decoded_json_content["facet_counts"]["facet_fields"][facet_field][7]
         json_response = decoded_json_content["response"]
         total_results = json_response["numFound"]
         num_pages = int(math.ceil(int(total_results) / int(results_per_page)))
         feed_data = json_response["docs"]
-        print(feed_data)
+        cnt={"en":0,"de":0,"fr":0,"es":0}
+        for i in feed_data:
+            cnt[i['lang']]=cnt[i['lang']]+1
+
+        #print(cnt)
         loop_times = range(1, num_pages + 1)
         context = {"data": feed_data, "num_pages": num_pages, "loop_times": loop_times, "page_no": page_no,
-                   "query": search_context, "next_page": next_page, "total_results": total_results}
+                   "query": search_context, "next_page": next_page, "total_results": total_results,"lang_cnt":cnt}
 
     # decoded_json_content = returnSampleJsonData()
     # cleaned_json = json.loads(decoded_json_content)
@@ -63,12 +75,7 @@ def getSuggestions(request):
     return HttpResponse(output)
 
 
-def getAuto():
-    # pdb.set_trace()
-    return render("suggestions.html")
-
-
-def makeSolrCall(search_query, type, page_no=1, results_per_page=20):
+def makeSolrCall(search_query, type, page_no=1, results_per_page=20, facet="false", facetField=""):
     #pdb.set_trace()
     search_context = search_query.strip()
     formatted_string = search_context.replace(",", " ")
@@ -80,7 +87,7 @@ def makeSolrCall(search_query, type, page_no=1, results_per_page=20):
         request_params = urllib.parse.urlencode(
             {'q': formatted_string, 'wt': 'json', 'indent': 'true', 'defType': 'dismax',
              'qf': processLang(search_context), 'bq': boost_query(search_context), 'bf': defaultBoosts(),
-             'rows': results_per_page, 'start': start})
+             'rows': results_per_page, 'start': start, })
         request_params = request_params.encode('utf-8')
         req = urllib.request.urlopen('http://52.34.17.82:8983/solr/ezra/select',
                                      request_params)
@@ -94,10 +101,10 @@ def makeSolrCall(search_query, type, page_no=1, results_per_page=20):
     content = req.read()
     decoded_json_content = json.loads(content.decode())
     if type == "search":
-        decoded_json_content = perform_relevance_feedback(decoded_json_content, start, results_per_page, search_query)
+        decoded_json_content = perform_relevance_feedback(decoded_json_content, start, results_per_page, search_query,facet,facetField)
     return decoded_json_content
 
-def perform_relevance_feedback(initial_response_data, start, results_per_page, search_query):
+def perform_relevance_feedback(initial_response_data, start, results_per_page, search_query,facet="false", facetField=""):
 	#pdb.set_trace()
 	tags = initial_response_data['response']['docs'][0]['tweet_tags']
 	if len(tags) == 0:
@@ -108,7 +115,7 @@ def perform_relevance_feedback(initial_response_data, start, results_per_page, s
 	formatted_string = search_context.replace(",", " ")
 	formatted_string = ' '.join(formatted_string.split())
 	formatted_string = formatted_string + ' ' + query
-	request_params = urllib.parse.urlencode({'q': formatted_string, 'wt': 'json', 'indent': 'true', 'defType': 'dismax','qf': processLang(search_context), 'bq': boost_query(search_context), 'bf': defaultBoosts(),'rows': results_per_page, 'start': start})
+	request_params = urllib.parse.urlencode({'q': formatted_string, 'wt': 'json', 'indent': 'true', 'defType': 'dismax','qf': processLang(search_context), 'bq': boost_query(search_context), 'bf': defaultBoosts(),'rows': results_per_page, 'start': start,'facet':facet, 'facet.field':facetField})
 	request_params = request_params.encode('utf-8')
 	req = urllib.request.urlopen('http://52.34.17.82:8983/solr/ezra/select',request_params)
 	content = req.read()
@@ -240,28 +247,26 @@ def lsi_search(request):
 
     dictionary=corpora.Dictionary.load('/tmp/deerwester.dict')
 
-    doc="paris"
+    doc=request.GET['q']
+    page_no = request.GET['page_no']
+    results_per_page = 10
     vec_bow = dictionary.doc2bow(doc.lower().split())
     vec_lda = lsi2[vec_bow] # convert the query to LSI space
     sims = index[vec_lda] 
     sims = sorted(enumerate(sims), key=lambda item: -item[1])
     counter=0
     finalarr=[]
-    for sim in sims:
+    for sim in sims[10*(int(page_no)-1) + 1 : int(page_no) * 10]:
             #print(sim[0])
-            if (counter<8):
-                conn = urllib.request.urlopen('http://52.34.17.82:8983/solr/ezra/select?q=id:'+doc_ids[sim[0]]+'&wt=json')
-                rsp = simplejson.load(conn)
-                
-                for doc in rsp['response']['docs']:
-                    #for tag in doc['text']:
-                    print(doc['text'].encode('utf-8'))
-                    finalarr.append(doc)
-                    print("\n")
-                counter=counter+1;
-    print(finalarr)
-    num_pages=3
-    page_no=1
+        conn = urllib.request.urlopen('http://52.34.17.82:8983/solr/ezra/select?q=id:'+doc_ids[sim[0]]+'&wt=json')
+        rsp = simplejson.load(conn)
+        
+        for doc in rsp['response']['docs']:
+            #for tag in doc['text']:
+            print(doc['text'].encode('utf-8'))
+            finalarr.append(doc)
+            print("\n")
+    num_pages=10
     loop_times = range(1, num_pages + 1)
     context = {"data": finalarr, "num_pages": num_pages, "loop_times": loop_times, "page_no": page_no}
     return render(request, "search.html", context)

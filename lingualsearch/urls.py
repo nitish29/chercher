@@ -18,6 +18,7 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^$', 'lingualsearch.views.search'),
     url(r'^search$', 'lingualsearch.views.search'),
     url(r'^suggestions$', 'lingualsearch.views.getSuggestions'),
     url(r'^train$', 'lingualsearch.views.lsi_train'),

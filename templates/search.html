@@ -62,7 +62,7 @@
                         <h3 class="title pie_chart_margin">Languages</h3>
                         <div id="piechart" style="width: 500px; height: 300px;"></div>
                     </section>
-                    <section class="widget">
+                    <!-- <section class="widget">
                         <h3 class="title">Featured Articles</h3>
                         <ul class="articles">
                             <li class="article-entry standard">
@@ -107,7 +107,7 @@
                             <li class="recentcomments"><a href="#" rel="external nofollow" class="url">John Doe</a> on <a href="#">Integrating WordPress with Your Website</a></li>
                             <li class="recentcomments"><a href="#" rel="external nofollow" class="url">Mr WordPress</a> on <a href="#">Installing WordPress</a></li>
                         </ul>
-                    </section>
+                    </section> -->
                 </aside>
                 <!-- end of sidebar -->
             </div>
@@ -162,10 +162,10 @@
 
         var data = google.visualization.arrayToDataTable([
             ['Language', 'Percentage'],
-            ['English', 11],
-            ['German', 2],
-            ['French', 2],
-            ['Spanish', 2]
+            ['English', {{lang_cnt.en}}],
+            ['German', {{lang_cnt.de}}],
+            ['French', {{lang_cnt.fr}}],
+            ['Spanish', {{lang_cnt.es}}]
         ]);
 
         var options = {
@@ -184,7 +184,7 @@
 
         // Save the selected row index in case getSelection is called.
         this.selectedRow = rowIndex;
-
+        
         // Fire a select event.
         google.visualization.events.trigger(this, 'select', {});
     };

@@ -45,18 +45,25 @@
                 <div class="search-area-wrapper">
                         <div class="search-area container">
                         <div class="row">
-                        <div class="span4"></div><div class="span5"><img src="static/ezra.png" style="max-width:40%;margin-left:17%;"></div><div class="span4"></div></div>
+                        <div class="span4"></div><div class="span5"><a href="/"><img src="static/ezra.png" style="max-width:40%;margin-left:17%;"></a></div><div class="span4"></div></div>
 
-                                <h3 class="search-header">PROJECT EZRA</h3>
+                                <a href="/"><h3 class="search-header">PROJECT EZRA</h3></a>
                                 <!-- <p class="search-tag-line">If you have any question you can ask below or enter what you are looking for!</p> -->
 
                                 <form id="search-form" class="search-form clearfix" method="get" action="/search" autocomplete="off">
-                                        <input class="search-term required" type="text" id="s" name="q" placeholder="Type your search terms here" title="* Please enter a search term!" />
+                                        <div class="span7" style="float:left">
+                                        <input  class="search-term required" type="text" id="s" name="q" placeholder="Type your search terms here" title="* Please enter a search term!" style="width:100%" />
                                         <input type="hidden" id="page_no" name="page_no" value="1" />
-                                        <input id="search" class="search-btn" type="submit" value="Search" />
                                         <div id="search-error-container"></div>
-                                </form>
+                                        </div>
+                                        <div class="span4" style="float:right;">
+                                        <input id="search" class="search-btn" type="submit" value="Search" style="float:left"/>
+                                        <input id="sem" class="search-btn" type="button" onclick="semantic_search()" value="I'm feeling semantic" />
+                                        </div>
+                                        
                         </div>
+                                </form>
+                                
                 </div>
                 <!-- End of Search Wrapper -->
                 {% block body_block %}{% endblock %}
@@ -168,3 +175,11 @@
 
         </body>
         </html>
+<script type="text/javascript">
+    function semantic_search()
+    {
+        form=document.getElementById('search-form');
+        form.action='/lsi_search';
+        form.submit();
+}
+</script>
