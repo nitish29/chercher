@@ -24,10 +24,12 @@ def search(request):
         page_no = request.GET['page_no']
         next_page = int(page_no) + 1
         topic=request.GET['topic']
+        if topic is '':
+            topic="*"
         type = "search"
         results_per_page = 10
         facet_field="lang"
-        decoded_json_content = makeSolrCall(search_context, type, page_no, results_per_page, "true", facet_field)
+        decoded_json_content = makeSolrCall(search_context, type, page_no, results_per_page, "true", facet_field, topic)
         print(decoded_json_content)
         cnt={"en":0,"de":0,"fr":0,"es":0}
         cnt[decoded_json_content["facet_counts"]["facet_fields"][facet_field][0]]=decoded_json_content["facet_counts"]["facet_fields"][facet_field][1]
@@ -76,7 +78,7 @@ def getSuggestions(request):
     return HttpResponse(output)
 
 
-def makeSolrCall(search_query, type, page_no=1, results_per_page=20, facet="false", facetField=""):
+def makeSolrCall(search_query, type, page_no=1, results_per_page=20, facet="false", facetField="", topic=""):
     #pdb.set_trace()
     search_context = search_query.strip()
     formatted_string = search_context.replace(",", " ")
@@ -88,7 +90,7 @@ def makeSolrCall(search_query, type, page_no=1, results_per_page=20, facet="fals
         request_params = urllib.parse.urlencode(
             {'q': formatted_string, 'wt': 'json', 'indent': 'true', 'defType': 'dismax',
              'qf': processLang(search_context), 'bq': boost_query(search_context), 'bf': defaultBoosts(),
-             'rows': results_per_page, 'start': start,'facet':facet, 'facet.field':facetField })
+             'rows': results_per_page, 'start': start,'facet':facet, 'facet.field':facetField, 'fq':'tweet_topics:'+topic})
         request_params = request_params.encode('utf-8')
         req = urllib.request.urlopen('http://52.34.17.82:8983/solr/ezra/select',
                                      request_params)
@@ -102,10 +104,10 @@ def makeSolrCall(search_query, type, page_no=1, results_per_page=20, facet="fals
     content = req.read()
     decoded_json_content = json.loads(content.decode())
     if type == "search":
-        decoded_json_content = perform_relevance_feedback(decoded_json_content, start, results_per_page, search_query,facet,facetField)
+        decoded_json_content = perform_relevance_feedback(decoded_json_content, start, results_per_page, search_query,facet,facetField,topic)
     return decoded_json_content
 
-def perform_relevance_feedback(initial_response_data, start, results_per_page, search_query,facet="false", facetField=""):
+def perform_relevance_feedback(initial_response_data, start, results_per_page, search_query,facet="false", facetField="",topic=""):
 	#pdb.set_trace()
 	tags = initial_response_data['response']['docs'][0]['tweet_tags']
 	if len(tags) == 0:
@@ -116,7 +118,7 @@ def perform_relevance_feedback(initial_response_data, start, results_per_page, s
 	formatted_string = search_context.replace(",", " ")
 	formatted_string = ' '.join(formatted_string.split())
 	formatted_string = formatted_string + ' ' + query
-	request_params = urllib.parse.urlencode({'q': formatted_string, 'wt': 'json', 'indent': 'true', 'defType': 'dismax','qf': processLang(search_context), 'bq': boost_query(search_context), 'bf': defaultBoosts(),'rows': results_per_page, 'start': start,'facet':facet, 'facet.field':facetField})
+	request_params = urllib.parse.urlencode({'q': formatted_string, 'wt': 'json', 'indent': 'true', 'defType': 'dismax','qf': processLang(search_context), 'bq': boost_query(search_context), 'bf': defaultBoosts(),'rows': results_per_page, 'start': start,'facet':facet, 'facet.field':facetField, 'fq':'tweet_topics:'+topic})
 	request_params = request_params.encode('utf-8')
 	req = urllib.request.urlopen('http://52.34.17.82:8983/solr/ezra/select',request_params)
 	content = req.read()

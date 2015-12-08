@@ -29,7 +29,7 @@
                                     <div class="post-meta clearfix">
                                         <span class="date">{{i.created_at}}</span>
                                         {% for j in i.tweet_topics %}
-                                        <span class="category"><a href="?q=topic_tweets%3A{{j}}&page_no={{next_page}}&topic={{j}}" title="View all posts in Server &amp; Database">
+                                        <span class="category"><a href="?q={{query}}&page_no={{next_page}}&topic={{j}}" title="View all posts in Server &amp; Database">
                                         {% ifequal j|slugify 0|slugify %} topic1 {% endifequal %}
                                         {% ifequal j|slugify 1|slugify %} topic2 {% endifequal %}
                                         {% ifequal j|slugify 2|slugify %} topic3 {% endifequal %}
