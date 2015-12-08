@@ -20,5 +20,6 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^search$', 'lingualsearch.views.search'),
     url(r'^suggestions$', 'lingualsearch.views.getSuggestions'),
-    url(r'^auto$', 'lingualsearch.views.getAuto'),
+    url(r'^train$', 'lingualsearch.views.lsi_train'),
+    url(r'^lsi_search$', 'lingualsearch.views.lsi_search'),
 ]
