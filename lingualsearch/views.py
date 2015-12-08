@@ -77,14 +77,14 @@ def makeSolrCall(search_query, type, page_no=1, results_per_page=20):
              'qf': processLang(search_context), 'bq': boost_query(search_context), 'bf': defaultBoosts(),
              'rows': results_per_page, 'start': start})
         request_params = request_params.encode('utf-8')
-        req = urllib.request.urlopen('http://urkk9fcf8fe7.richieverma.koding.io:8983/solr/partB/select',
+        req = urllib.request.urlopen('http://52.27.72.1:8983/solr/ezra/select',
                                      request_params)
 
     else:
         request_params = urllib.parse.urlencode(
             {'q': formatted_string, 'wt': 'json', 'indent': 'true'})
         request_params = request_params.encode('utf-8')
-        req = urllib.request.urlopen('http://urkk9fcf8fe7.richieverma.koding.io:8983/solr/partB/suggest', request_params)
+        req = urllib.request.urlopen('http://52.27.72.1:8983/solr/ezra/suggest', request_params)
 
     content = req.read()
     decoded_json_content = json.loads(content.decode())
@@ -105,7 +105,7 @@ def perform_relevance_feedback(initial_response_data, start, results_per_page, s
 	formatted_string = formatted_string + ' ' + query
 	request_params = urllib.parse.urlencode({'q': formatted_string, 'wt': 'json', 'indent': 'true', 'defType': 'dismax','qf': processLang(search_context), 'bq': boost_query(search_context), 'bf': defaultBoosts(),'rows': results_per_page, 'start': start})
 	request_params = request_params.encode('utf-8')
-	req = urllib.request.urlopen('http://urkk9fcf8fe7.richieverma.koding.io:8983/solr/partB/select',request_params)
+	req = urllib.request.urlopen('http://52.27.72.1:8983/solr/ezra/select',request_params)
 	content = req.read()
 	decoded_json_content = json.loads(content.decode())
 	return decoded_json_content
