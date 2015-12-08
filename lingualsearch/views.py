@@ -23,6 +23,7 @@ def search(request):
         search_context = request.GET['q']
         page_no = request.GET['page_no']
         next_page = int(page_no) + 1
+        topic=request.GET['topic']
         type = "search"
         results_per_page = 10
         facet_field="lang"
@@ -87,7 +88,7 @@ def makeSolrCall(search_query, type, page_no=1, results_per_page=20, facet="fals
         request_params = urllib.parse.urlencode(
             {'q': formatted_string, 'wt': 'json', 'indent': 'true', 'defType': 'dismax',
              'qf': processLang(search_context), 'bq': boost_query(search_context), 'bf': defaultBoosts(),
-             'rows': results_per_page, 'start': start, })
+             'rows': results_per_page, 'start': start,'facet':facet, 'facet.field':facetField })
         request_params = request_params.encode('utf-8')
         req = urllib.request.urlopen('http://52.34.17.82:8983/solr/ezra/select',
                                      request_params)

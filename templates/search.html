@@ -28,7 +28,20 @@
                                 <div class="span7">
                                     <div class="post-meta clearfix">
                                         <span class="date">{{i.created_at}}</span>
-                                        <span class="category"><a href="#" title="View all posts in Server &amp; Database">Server &amp; Database</a></span>
+                                        {% for j in i.tweet_topics %}
+                                        <span class="category"><a href="?q=topic_tweets%3A{{j}}&page_no={{next_page}}&topic={{j}}" title="View all posts in Server &amp; Database">
+                                        {% ifequal j|slugify 0|slugify %} topic1 {% endifequal %}
+                                        {% ifequal j|slugify 1|slugify %} topic2 {% endifequal %}
+                                        {% ifequal j|slugify 2|slugify %} topic3 {% endifequal %}
+                                        {% ifequal j|slugify 3|slugify %} topic4 {% endifequal %}
+                                        {% ifequal j|slugify 4|slugify %} topic5 {% endifequal %}
+                                        {% ifequal j|slugify 5|slugify %} topic6 {% endifequal %}
+                                        {% ifequal j|slugify 6|slugify %} topic7 {% endifequal %}
+                                        {% ifequal j|slugify 7|slugify %} topic8 {% endifequal %}
+                                        {% ifequal j|slugify 8|slugify %} topic9 {% endifequal %}
+                                        {% ifequal j|slugify 9|slugify %} topic10 {% endifequal %}
+                                        </a></span>
+                                        {% endfor %}
                                         <!-- <span class="comments"><a href="#" title="Comment on Integrating WordPress with Your Website">3 Comments</a></span> -->
                                         <span class="like-count">{{i.favourite_count}}</span>
                                         <span style="float:right;"><i class="icon-retweet" ></i>&nbsp;{{i.retweet_count}}</span>
@@ -45,12 +58,12 @@
                 
                 {% for j in loop_times|slice:":10" %}
                 
-                    <a href="?q={{query}}&page_no={{j}}" class="btn {% ifequal j|slugify page_no %}active{% endifequal %}">{{j}}</a>
+                    <a href="?q={{query}}&page_no={{j}}&topic={{topic}}" class="btn {% ifequal j|slugify page_no %}active{% endifequal %}">{{j}}</a>
 
                 {% endfor %}
                 {% ifnotequal num_pages|slugify page_no|slugify %}
-                <a href="?q={{query}}&page_no={{next_page}}" class="btn">Next »</a>
-                <a href="?q={{query}}&page_no={{num_pages}}" class="btn">Last »</a>
+                <a href="?q={{query}}&page_no={{next_page}}&topic={{topic}}" class="btn">Next »</a>
+                <a href="?q={{query}}&page_no={{num_pages}}&topic={{topic}}" class="btn">Last »</a>
                 {% endifnotequal %}
                 </div>
                 
