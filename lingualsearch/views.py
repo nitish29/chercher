@@ -30,7 +30,7 @@ def search(request):
         results_per_page = 10
         facet_field="lang"
         decoded_json_content = makeSolrCall(search_context, type, page_no, results_per_page, "true", facet_field, topic)
-        print(decoded_json_content)
+        #print(decoded_json_content)
         cnt={"en":0,"de":0,"fr":0,"es":0}
         cnt[decoded_json_content["facet_counts"]["facet_fields"][facet_field][0]]=decoded_json_content["facet_counts"]["facet_fields"][facet_field][1]
         cnt[decoded_json_content["facet_counts"]["facet_fields"][facet_field][2]]=decoded_json_content["facet_counts"]["facet_fields"][facet_field][3]
@@ -171,6 +171,7 @@ def returnSampleJsonData():
     return sample_json
 
 def lsi_train(request):
+
     conn = urllib.request.urlopen('http://52.34.17.82:8983/solr/ezra/select?q=tweet_tags:*&wt=json&rows=12000')
     print(conn)
     #initial=True
@@ -266,9 +267,9 @@ def lsi_search(request):
         
         for doc in rsp['response']['docs']:
             #for tag in doc['text']:
-            print(doc['text'].encode('utf-8'))
+            #print(doc['text'].encode('utf-8'))
             finalarr.append(doc)
-            print("\n")
+            #print("\n")
     num_pages=10
     loop_times = range(1, num_pages + 1)
     context = {"data": finalarr, "num_pages": num_pages, "loop_times": loop_times, "page_no": page_no}

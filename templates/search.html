@@ -30,16 +30,16 @@
                                         <span class="date">{{i.created_at}}</span>
                                         {% for j in i.tweet_topics %}
                                         <span class="category"><a href="?q={{query}}&page_no={{next_page}}&topic={{j}}" title="View all posts in Server &amp; Database">
-                                        {% ifequal j|slugify 0|slugify %} topic1 {% endifequal %}
-                                        {% ifequal j|slugify 1|slugify %} topic2 {% endifequal %}
-                                        {% ifequal j|slugify 2|slugify %} topic3 {% endifequal %}
-                                        {% ifequal j|slugify 3|slugify %} topic4 {% endifequal %}
-                                        {% ifequal j|slugify 4|slugify %} topic5 {% endifequal %}
-                                        {% ifequal j|slugify 5|slugify %} topic6 {% endifequal %}
-                                        {% ifequal j|slugify 6|slugify %} topic7 {% endifequal %}
-                                        {% ifequal j|slugify 7|slugify %} topic8 {% endifequal %}
-                                        {% ifequal j|slugify 8|slugify %} topic9 {% endifequal %}
-                                        {% ifequal j|slugify 9|slugify %} topic10 {% endifequal %}
+                                        {% ifequal j|slugify 0|slugify %} Impact on Presidential Race {% endifequal %}
+                                        {% ifequal j|slugify 1|slugify %} Syria {% endifequal %}
+                                        {% ifequal j|slugify 2|slugify %} Paris Attacks {% endifequal %}
+                                        {% ifequal j|slugify 3|slugify %} Paris Attack Suspects {% endifequal %}
+                                        {% ifequal j|slugify 4|slugify %} Paris Attacks Aftermath {% endifequal %}
+                                        {% ifequal j|slugify 5|slugify %} West {% endifequal %}
+                                        {% ifequal j|slugify 6|slugify %} Paris attack Concert {% endifequal %}
+                                        {% ifequal j|slugify 7|slugify %} Influence on attacks on the US {% endifequal %}
+                                        {% ifequal j|slugify 8|slugify %} Paris and UK Connection {% endifequal %}
+                                        {% ifequal j|slugify 9|slugify %} Refugees {% endifequal %}
                                         </a></span>
                                         {% endfor %}
                                         <!-- <span class="comments"><a href="#" title="Comment on Integrating WordPress with Your Website">3 Comments</a></span> -->
