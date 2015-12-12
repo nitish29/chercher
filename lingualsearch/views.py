@@ -43,11 +43,15 @@ def search(request):
         cnt={"en":0,"de":0,"fr":0,"es":0}
         for i in feed_data:
             cnt[i['lang']]=cnt[i['lang']]+1
-
+        hashtag_query="http://52.34.17.82:8983/solr/ezra/select?q=tweet_hashtags_display:*&facet=true&facet.field=tweet_hashtags_display&facet.mincount=1&facet.limit=100&fq=created_at:[2015-12-4T00:00:00Z%20TO%202015-12-4T23:59:99.999Z]&wt=json"
+        hash_req = urllib.request.urlopen(hashtag_query)
+        content_hashtag = hash_req.read()
+        hashtag_json = json.loads(content_hashtag.decode())
+        hashtag = hashtag_json["facet_counts"]["facet_fields"]["tweet_hashtags_display"]
         #print(cnt)
         loop_times = range(1, num_pages + 1)
         context = {"data": feed_data, "num_pages": num_pages, "loop_times": loop_times, "page_no": page_no,
-                   "query": search_context, "next_page": next_page, "total_results": total_results,"lang_cnt":cnt}
+                   "query": search_context, "next_page": next_page, "total_results": total_results,"lang_cnt":cnt, "search_type":"normal", "hashtag": hashtag}
 
     # decoded_json_content = returnSampleJsonData()
     # cleaned_json = json.loads(decoded_json_content)
@@ -272,7 +276,7 @@ def lsi_search(request):
             #print("\n")
     num_pages=10
     loop_times = range(1, num_pages + 1)
-    context = {"data": finalarr, "num_pages": num_pages, "loop_times": loop_times, "page_no": page_no}
+    context = {"data": finalarr, "num_pages": num_pages, "loop_times": loop_times, "page_no": page_no, "search_type": "semantic", "query": request.GET['q']}
     return render(request, "search.html", context)
     #for doc in doc_ids:
     #    print(doc)

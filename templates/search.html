@@ -1,9 +1,16 @@
 {% extends 'base.html' %} {% block body_block %}
 <!-- Start of Page Container -->
-<div class="page-container">
+<script>
+function populate_search(){
+        document.getElementById('s').value="{{query}}";
+    }
+</script>
+<div class="page-container" >
     <div class="container">
     <div class="row">
+    {% ifequal search_type|slugify "normal" %}
     {{total_results}} results found
+    {% endifequal %}
     </div>
         <div class="row">
             <!-- start of page content -->
@@ -71,10 +78,24 @@
                 <!-- end of page content -->
                 <!-- start of sidebar -->
                 <aside class="span4 page-sidebar">
+                {% ifequal search_type|slugify "normal" %}
+
+                    <section class="widget">
+                       <h3>Trending Hashtags</h3>
+                        {% for j in hashtag|slice:":10" %}
+                        {% if forloop.counter|divisibleby:"2" %}
+                        {% else %}
+                        #{{j}}<br>
+                        {%endif%}
+
+                        {% endfor %}
+                    </section>
+
                     <section class="widget">
                         <h3 class="title pie_chart_margin">Languages</h3>
-                        <div id="piechart" style="width: 500px; height: 300px;"></div>
+                        <div id="piechart"></div>
                     </section>
+                    {% endifequal %}
                     <!-- <section class="widget">
                         <h3 class="title">Featured Articles</h3>
                         <ul class="articles">
@@ -201,6 +222,8 @@
         // Fire a select event.
         google.visualization.events.trigger(this, 'select', {});
     };
+
+    
     </script>
     <!-- End of Page Container -->
     {% endblock %}
