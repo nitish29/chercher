@@ -21,6 +21,7 @@ def search(request):
         #pdb.set_trace()
         errors = []
         search_context = request.GET['q']
+        query= urllib.parse.urlencode({'q' : search_context})
         page_no = request.GET['page_no']
         next_page = int(page_no) + 1
         topic=request.GET['topic']
@@ -51,7 +52,7 @@ def search(request):
         #print(cnt)
         loop_times = range(1, num_pages + 1)
         context = {"data": feed_data, "num_pages": num_pages, "loop_times": loop_times, "page_no": page_no,
-                   "query": search_context, "next_page": next_page, "total_results": total_results,"lang_cnt":cnt, "search_type":"normal", "hashtag": hashtag}
+                   "query": search_context, "next_page": next_page, "total_results": total_results,"lang_cnt":cnt, "search_type":"normal", "hashtag": hashtag, "enc_query":query}
 
     # decoded_json_content = returnSampleJsonData()
     # cleaned_json = json.loads(decoded_json_content)
@@ -131,7 +132,11 @@ def perform_relevance_feedback(initial_response_data, start, results_per_page, s
 
 
 def processLang(query):
-    lang = detect(re.sub('#[^\s]*', '', query))
+    minus_hashtags = re.sub('#[^\s]*', '', query)
+    lang = "default"
+    if minus_hashtags:
+        lang = detect(minus_hashtags)
+
     if lang not in ['en', 'es', 'de', 'fr']:
         processed_query = boost_with_no_lang_detected_in_query()
     else:
@@ -148,10 +153,9 @@ def boost_query_with_known_lang(lang):
 
 
 def boost_query(query):
-    #pdb.set_trace()
-    lang = detect(re.sub('#[^\s]*', '', query))
-    capitalWords = []
     matches = re.findall('#[^\s]*', query, re.DOTALL)
+    lang = detect_lang(query)
+    capitalWords = []
     boost_query = "user_verified:true^1.5"
     if len(matches) > 0:
         boost_query = boost_query + " tweet_hashtags:("
@@ -165,6 +169,13 @@ def boost_query(query):
         boost_query = boost_query + " text_" + lang + "_CAPS:(" + (" ").join(capitalWords) + ")^2"
     return boost_query
 
+def detect_lang(query):
+    lang = "default"
+    minus_hashtags = re.sub('#[^\s]*', '', query)
+    if minus_hashtags:
+        lang = detect(minus_hashtags)
+    print(lang)
+    return lang
 
 def defaultBoosts():
     return 'retweet_count^0.14 favourite_count^0.13 listed_count^0.03 recip(ms(NOW,created_at),3.16e-11,5000,1)'

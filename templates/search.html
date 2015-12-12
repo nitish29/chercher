@@ -65,12 +65,12 @@ function populate_search(){
                 
                 {% for j in loop_times|slice:":10" %}
                 
-                    <a href="?q={{query}}&page_no={{j}}&topic={{topic}}" class="btn {% ifequal j|slugify page_no %}active{% endifequal %}">{{j}}</a>
+                    <a href="?{{enc_query}}&page_no={{j}}&topic={{topic}}" class="btn {% ifequal j|slugify page_no %}active{% endifequal %}">{{j}}</a>
 
                 {% endfor %}
                 {% ifnotequal num_pages|slugify page_no|slugify %}
-                <a href="?q={{query}}&page_no={{next_page}}&topic={{topic}}" class="btn">Next »</a>
-                <a href="?q={{query}}&page_no={{num_pages}}&topic={{topic}}" class="btn">Last »</a>
+                <a href="?{{enc_query}}&page_no={{next_page}}&topic={{topic}}" class="btn">Next »</a>
+                <a href="?{{enc_query}}&page_no={{num_pages}}&topic={{topic}}" class="btn">Last »</a>
                 {% endifnotequal %}
                 </div>
                 
