@@ -136,11 +136,11 @@ def processLang(query):
 
 
 def boost_with_no_lang_detected_in_query():
-    return "text_en text_de text_es text_fr"
+    return "text_en^4 text_de^4 text_es^4 text_fr^4"
 
 
 def boost_query_with_known_lang(lang):
-    return "text_en text_de text_es text_fr".replace("text_" + lang, "text_" + lang + "^2")
+    return "text_en^4 text_de^4 text_es^4 text_fr^4".replace("text_" + lang + "^4", "text_" + lang + "^8")
 
 
 def boost_query(query):
@@ -163,7 +163,7 @@ def boost_query(query):
 
 
 def defaultBoosts():
-    return 'retweet_count^0.14 favourite_count^0.13 listed_count^0.03 followers_count^0.03 recip(ms(NOW,created_at),3.16e-11,5000,1)'
+    return 'retweet_count^0.14 favourite_count^0.13 listed_count^0.03 recip(ms(NOW,created_at),3.16e-11,5000,1)'
 
 
 def returnSampleJsonData():
