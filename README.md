@@ -1,5 +1,9 @@
 # chercher
-Multilingual Search System
+
+Chercher is a multi-lingual search system which allows users to search and browse multilingual data based on various topics like Paris attacks, Syrian refugee crisis etc. It uses content tagging and LDA topic modeling to improve a user's search experience. Other features supported by the system include pseudo-relevance feedback and query expansion, faceted search, semantic search.
+
+Video Demo Link : https://drive.google.com/file/d/0B1zSNVaXoshRaWM3WUxpS29DN3M/view
+
 
 # chercher Installation Steps
 
